@@ -180,9 +180,47 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
-        return false;
+        int size = b.size();
+        if (emptySpaceExists(b)){
+            return true;
+        } else {
+            for (int col = 0; col<size; col++){
+                for (int row = 0; row < size; row++){
+                    if (check_adjacent(b, col, row)){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 
+    private static boolean check_adjacent(Board b, int col, int row){
+        int target =getvalue(b,col,row);
+        int up = getvalue(b,col+1,row);
+        int down = getvalue(b,col-1,row);
+        int left = getvalue(b,col,row-1);
+        int right = getvalue(b,col,row+1);
+
+        if (target == up || target == down || target == left || target == right){
+            return true;
+        }
+        return false;
+
+
+    }
+    private static int getvalue(Board b, int col, int row){
+        int size = b.size();
+        if (col < 0 || row < 0 || row >=size || col >= size){
+            return -2047;
+        }
+        if (b.tile(col,row) == null){
+            return -2048;
+        }
+        else {
+            return b.tile(col,row).value();
+        }
+    }
 
     @Override
      /** Returns the model as a string, used for debugging. */
